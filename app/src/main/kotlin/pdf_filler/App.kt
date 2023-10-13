@@ -3,8 +3,9 @@
  */
 package pdf_filler
 
-import com.gitlab.pdftk_java.com.lowagie.text.pdf.*
-import com.gitlab.pdftk_java.pdftk
+import com.gitlab.pdftk_java.com.lowagie.text.pdf.PdfReader
+import com.gitlab.pdftk_java.com.lowagie.text.pdf.PdfStamperImp
+import com.gitlab.pdftk_java.com.lowagie.text.pdf.XfdfReader
 import java.nio.file.Files
 import java.nio.file.Paths
 
@@ -16,16 +17,15 @@ class App {
 }
 
 fun main() {
-    val t = pdftk()
     val reader = PdfReader("file.pdf")
     val form = XfdfReader("file.xfdf")
     val outputStream = Files.newOutputStream(Paths.get("/tmp/test.pdf"))
 
     // Code from com.gitlab.pdftk_java.filter
-    val writer_p = PdfStamperImp(reader, outputStream, '\u0000', false /* append mode */)
-    val fields_p = writer_p.getAcroFields()
-    writer_p.setFormFlattening(true)
-    fields_p.setGenerateAppearances(true)
-    fields_p.setFields(form)
-    writer_p.close()
+    val writer = PdfStamperImp(reader, outputStream, '\u0000', false /* append mode */)
+    val fields = writer.getAcroFields()
+    writer.setFormFlattening(true)
+    fields.setGenerateAppearances(true)
+    fields.setFields(form)
+    writer.close()
 }

@@ -26,7 +26,7 @@ jobs:
       - name: Run the Gradle buildFatJar task
         uses: gradle/gradle-build-action@749f47bda3e44aa060e82d7b3ef7e40d953bd629
         with:
-          arguments: -b ci.gradle buildFatJar
+          arguments: buildFatJar
       - name: Set up QEMU
         uses: docker/setup-qemu-action@v2
       -

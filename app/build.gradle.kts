@@ -5,6 +5,8 @@
  * For more details on building Java & JVM projects, please refer to https://docs.gradle.org/8.4/userguide/building_java_projects.html in the Gradle documentation.
  */
 
+val logback_version: String by project
+
 plugins {
     // Apply the org.jetbrains.kotlin.jvm Plugin to add support for Kotlin.
     id("org.jetbrains.kotlin.jvm") version "1.9.10"
@@ -31,7 +33,8 @@ dependencies {
     implementation("io.ktor:ktor-server-netty-jvm:2.3.5")
     implementation("io.ktor:ktor-server-status-pages-jvm:2.3.5")
     implementation("io.ktor:ktor-server-default-headers-jvm:2.3.5")
-    implementation("5024297:pdftk-all:3.3.3")
+    implementation("ch.qos.logback:logback-classic:$logback_version")
+        implementation("5024297:pdftk-all:3.3.3")
     // Use the Kotlin JUnit 5 integration.
     testImplementation("org.jetbrains.kotlin:kotlin-test-junit5")
 

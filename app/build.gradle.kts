@@ -8,6 +8,7 @@
 plugins {
     // Apply the org.jetbrains.kotlin.jvm Plugin to add support for Kotlin.
     id("org.jetbrains.kotlin.jvm") version "1.9.10"
+    id("io.ktor.plugin") version "2.3.5"
 
     // Apply the application plugin to add support for building a CLI application in Java.
     application
@@ -26,6 +27,10 @@ repositories {
 }
 
 dependencies {
+    implementation("io.ktor:ktor-server-core-jvm:2.3.5")
+    implementation("io.ktor:ktor-server-netty-jvm:2.3.5")
+    implementation("io.ktor:ktor-server-status-pages-jvm:2.3.5")
+    implementation("io.ktor:ktor-server-default-headers-jvm:2.3.5")
     implementation("5024297:pdftk-all:3.3.3")
     // Use the Kotlin JUnit 5 integration.
     testImplementation("org.jetbrains.kotlin:kotlin-test-junit5")
@@ -42,13 +47,13 @@ dependencies {
 // Apply a specific Java toolchain to ease working on different environments.
 java {
     toolchain {
-        languageVersion.set(JavaLanguageVersion.of(11))
+        languageVersion.set(JavaLanguageVersion.of(17))
     }
 }
 
 application {
     // Define the main class for the application.
-    mainClass.set("pdf_filler.AppKt")
+    mainClass.set("eu.eutampieri.pdf_filler.AppKt")
 }
 
 tasks.named<Test>("test") {

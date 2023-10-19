@@ -1,4 +1,4 @@
-package pdf_filler
+package eu.eutampieri.pdf_filler
 
 import com.gitlab.pdftk_java.com.lowagie.text.pdf.FdfReader
 import com.gitlab.pdftk_java.com.lowagie.text.pdf.PdfReader

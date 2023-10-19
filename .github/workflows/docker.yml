@@ -14,8 +14,20 @@ jobs:
   docker:
     runs-on: ubuntu-latest
     steps:
-      -
-        name: Set up QEMU
+      - uses: actions/checkout@v4
+      - name: Set up JDK 11 for x64
+        uses: actions/setup-java@v3
+        with:
+          java-version: '11'
+          distribution: 'temurin'
+          architecture: x64
+      - name: Validate Gradle wrapper
+        uses: gradle/wrapper-validation-action@ccb4328a959376b642e027874838f60f8e596de3
+      - name: Run the Gradle buildFatJar task
+        uses: gradle/gradle-build-action@749f47bda3e44aa060e82d7b3ef7e40d953bd629
+        with:
+          arguments: -b ci.gradle buildFatJar
+      - name: Set up QEMU
         uses: docker/setup-qemu-action@v2
       -
         name: Set up Docker Buildx

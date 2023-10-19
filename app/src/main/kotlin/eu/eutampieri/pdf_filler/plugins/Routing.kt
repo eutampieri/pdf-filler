@@ -32,17 +32,28 @@ fun Application.configureRouting() {
             val formRaw = formOption.get() as PartData.FileItem
 
             // Actual PDF form filling
-            val reader = PdfReader(pdfRaw.streamProvider())
-            call.respondOutputStream(ContentType.parse("application/pdf"), HttpStatusCode.OK) {
-                try {
-                    val form = XfdfReader(formRaw.streamProvider())
-                    PdfFiller(reader).fill(form, this)
-                } catch (e: Exception) {
-                    val form = FdfReader(formRaw.streamProvider())
+            val reader: PdfReader
+            try {
+                reader= PdfReader(pdfRaw.streamProvider())
+            } catch (e: Exception) {
+                call.respond(HttpStatusCode.BadRequest, e.toString())
+                return@post
+            }
+            try {
+                val form = XfdfReader(formRaw.streamProvider())
+                call.respondOutputStream(ContentType.parse("application/pdf"), HttpStatusCode.OK) {
                     PdfFiller(reader).fill(form, this)
                 }
+            } catch (e: Exception) {
+                try {
+                    val form = FdfReader(formRaw.streamProvider())
+                    call.respondOutputStream(ContentType.parse("application/pdf"), HttpStatusCode.OK) {
+                        PdfFiller(reader).fill(form, this)
+                    }
+                } catch (e: Exception) {
+                    call.respond(HttpStatusCode.BadRequest, "Form data is not in FDF/XFDF format.")
+                }
             }
-            call.respondText(reader.acroForm.fields[0].toString())
         }
     }
 }

@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xfdf xmlns="http://ns.adobe.com/xfdf/" xml:space="preserve">
+  <fields>
+    <field name="name"><value>John Smith</value></field>
+    <field name="city"><value>London</value></field>
+  </fields>
+  <f href="form.pdf"/>
+</xfdf>

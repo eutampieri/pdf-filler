@@ -1,0 +1,41 @@
+%PDF-1.4
+%‚„œ”
+1 0 obj
+<< /Type /Catalog /Pages 2 0 R /AcroForm << /Fields [5 0 R 7 0 R] /DR << /Font << /Helv 6 0 R >> >> /DA (/Helv 12 Tf 0 g) >> >>
+endobj
+2 0 obj
+<< /Type /Pages /Kids [3 0 R] /Count 1 >>
+endobj
+3 0 obj
+<< /Type /Page /Parent 2 0 R /MediaBox [0 0 300 200] /Contents 4 0 R /Resources << /Font << /Helv 6 0 R >> >> /Annots [5 0 R 7 0 R] >>
+endobj
+4 0 obj
+<< /Length 44 >>
+stream
+BT /Helv 12 Tf 20 170 Td (Test module) Tj ET
+endstream
+endobj
+5 0 obj
+<< /Type /Annot /Subtype /Widget /FT /Tx /T (name) /Rect [20 120 280 145] /P 3 0 R /F 4 /DA (/Helv 12 Tf 0 g) >>
+endobj
+6 0 obj
+<< /Type /Font /Subtype /Type1 /BaseFont /Helvetica /Encoding /WinAnsiEncoding >>
+endobj
+7 0 obj
+<< /Type /Annot /Subtype /Widget /FT /Tx /T (city) /Rect [20 80 280 105] /P 3 0 R /F 4 /DA (/Helv 12 Tf 0 g) >>
+endobj
+xref
+0 8
+0000000000 65535 f 
+0000000015 00000 n 
+0000000158 00000 n 
+0000000215 00000 n 
+0000000365 00000 n 
+0000000459 00000 n 
+0000000587 00000 n 
+0000000684 00000 n 
+trailer
+<< /Size 8 /Root 1 0 R >>
+startxref
+811
+%%EOF

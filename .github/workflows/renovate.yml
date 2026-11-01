@@ -1,0 +1,21 @@
+name: renovate
+
+on:
+  schedule:
+    - cron: "0 3 * * *"
+  workflow_dispatch:
+
+jobs:
+  renovate:
+    runs-on: ubuntu-latest
+    container:
+      image: ghcr.io/renovatebot/renovate:41
+    env:
+      RENOVATE_PLATFORM: github
+      RENOVATE_TOKEN: ${{ secrets.RENOVATE_TOKEN }}
+      GITHUB_COM_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      RENOVATE_GIT_AUTHOR: "Renovate Bot <renovate@eutampieri.eu>"
+      RENOVATE_REPOSITORIES: ${{ github.repository }}
+      LOG_LEVEL: debug
+    steps:
+      - run: renovate

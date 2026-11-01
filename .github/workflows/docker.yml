@@ -5,10 +5,14 @@ on:
   release:
     types: [ published ]
 
-  # publish on pushes to the main branch (image tagged as "latest")
-  push:
-    branches:
-      - master
+  # called by the release workflow after a new version is released
+  workflow_call:
+    inputs:
+      version:
+        description: "Release tag, e.g. v2.1.13"
+        type: string
+        required: false
+        default: ""
 
 jobs:
   docker:
@@ -40,10 +44,22 @@ jobs:
           username: ${{ github.repository_owner }}
           password: ${{ secrets.GITHUB_TOKEN }}
       -
+        name: Compute image tags
+        id: tags
+        env:
+          RELEASE_TAG: ${{ inputs.version || github.event.release.tag_name }}
+        run: |
+          TAGS="ghcr.io/${{ github.repository }}:latest"
+          if [ -n "$RELEASE_TAG" ]; then
+            VERSION="${RELEASE_TAG#v}"
+            TAGS="$TAGS,ghcr.io/${{ github.repository }}:$VERSION"
+          fi
+          echo "tags=$TAGS" >> "$GITHUB_OUTPUT"
+      -
         name: Build and push
         uses: docker/build-push-action@v4
         with:
           context: .
           push: true
           platforms: linux/amd64,linux/arm64
-          tags: ghcr.io/${{ github.repository }}:latest
+          tags: ${{ steps.tags.outputs.tags }}

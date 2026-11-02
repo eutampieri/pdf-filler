@@ -10,6 +10,7 @@ import io.ktor.server.application.*
 import io.ktor.server.request.*
 import io.ktor.server.response.*
 import io.ktor.server.routing.*
+import io.ktor.utils.io.toByteArray
 
 
 fun Application.configureRouting() {
@@ -28,42 +29,42 @@ fun Application.configureRouting() {
                 call.respond(HttpStatusCode.BadRequest, e.toString())
                 return@post
             }
-            val parts = mutableMapOf<String, PartData>()
+            var pdf: ByteArray? = null
+            var form: ByteArray? = null
+
             data.forEachPart {
-                val name = it.name.orEmpty()
-                if(name == "pdf" || name == "form") {
-                    parts[name] = it
+                if (it is PartData.FileItem) {
+                    when (it.name) {
+                        "pdf" -> pdf = it.provider().toByteArray()
+                        "form" -> form = it.provider().toByteArray()
+                    }
                 }
             }
-            val pdfOption = parts["pdf"]
-            val formOption = parts["form"]
-            if(formOption == null || pdfOption == null) {
+            if(form == null || pdf == null) {
                 call.respond(HttpStatusCode.BadRequest, "Missing PDF or XFDF/FDF.")
                 return@post
             }
-            val pdfRaw = pdfOption as PartData.FileItem
-            val formRaw = formOption as PartData.FileItem
 
             // Actual PDF form filling
             val reader: PdfReader
             try {
-                reader= PdfReader(pdfRaw.streamProvider())
+                reader = PdfReader(pdf)
             } catch (e: Exception) {
                 call.respond(HttpStatusCode.BadRequest, e.toString())
                 return@post
             }
             try {
-                val form = XfdfReader(formRaw.streamProvider())
+                val xfdf = XfdfReader(form)
                 call.respondOutputStream(ContentType.parse("application/pdf"), HttpStatusCode.OK) {
-                    PdfFiller(reader).fill(form, this)
+                    PdfFiller(reader).fill(xfdf, this)
                 }
-            } catch (e: Exception) {
+            } catch (_: Exception) {
                 try {
-                    val form = FdfReader(formRaw.streamProvider())
+                    val fdf = FdfReader(form)
                     call.respondOutputStream(ContentType.parse("application/pdf"), HttpStatusCode.OK) {
-                        PdfFiller(reader).fill(form, this)
+                        PdfFiller(reader).fill(fdf, this)
                     }
-                } catch (e: Exception) {
+                } catch (_: Exception) {
                     call.respond(HttpStatusCode.BadRequest, "Form data is not in FDF/XFDF format.")
                 }
             }

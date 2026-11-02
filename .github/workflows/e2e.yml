@@ -73,14 +73,18 @@ jobs:
           name: filled-form
           path: filled-form.png
 
-      - name: Comment on PR with image link
+      # old.eutampieri.eu/e2e-image.php serves the PNG from the artifact zip, since artifact links need a GitHub login.
+      - name: Comment on PR with image
         env:
           GH_TOKEN: ${{ github.token }}
-          IMAGE_URL: ${{ steps.upload.outputs.artifact-url }}
+          ARTIFACT_URL: ${{ steps.upload.outputs.artifact-url }}
+          IMAGE_URL: https://old.eutampieri.eu/e2e-image.php?repo=${{ github.event.repository.name }}&run=${{ github.run_id }}
           PR_NUMBER: ${{ github.event.pull_request.number }}
         run: |
           gh pr comment "$PR_NUMBER" --repo "$GITHUB_REPOSITORY" \
-            --body "e2e: the test form was filled through the Docker image. Rendered output: $IMAGE_URL"
+            --body "e2e: the test form was filled through the Docker image. Rendered output ([artifact]($ARTIFACT_URL)):
+
+          ![filled form]($IMAGE_URL)"
 
       - name: Stop service
         if: always()

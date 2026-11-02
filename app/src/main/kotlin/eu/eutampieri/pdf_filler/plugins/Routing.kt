@@ -28,15 +28,21 @@ fun Application.configureRouting() {
                 call.respond(HttpStatusCode.BadRequest, e.toString())
                 return@post
             }
-            val parts = data.readAllParts()
-            val pdfOption = parts.stream().filter { return@filter it.name == "pdf" }.findFirst()
-            val formOption = parts.stream().filter { return@filter it.name == "form" }.findFirst()
-            if(formOption.isEmpty || pdfOption.isEmpty) {
+            val parts = mutableMapOf<String, PartData>()
+            data.forEachPart {
+                val name = it.name.orEmpty()
+                if(name == "pdf" || name == "form") {
+                    parts[name] = it
+                }
+            }
+            val pdfOption = parts["pdf"]
+            val formOption = parts["form"]
+            if(formOption == null || pdfOption == null) {
                 call.respond(HttpStatusCode.BadRequest, "Missing PDF or XFDF/FDF.")
                 return@post
             }
-            val pdfRaw = pdfOption.get() as PartData.FileItem
-            val formRaw = formOption.get() as PartData.FileItem
+            val pdfRaw = pdfOption as PartData.FileItem
+            val formRaw = formOption as PartData.FileItem
 
             // Actual PDF form filling
             val reader: PdfReader

@@ -29,10 +29,10 @@ repositories {
 }
 
 dependencies {
-    implementation("io.ktor:ktor-server-core-jvm:2.3.13")
-    implementation("io.ktor:ktor-server-netty-jvm:2.3.13")
-    implementation("io.ktor:ktor-server-status-pages-jvm:2.3.13")
-    implementation("io.ktor:ktor-server-default-headers-jvm:2.3.13")
+    implementation("io.ktor:ktor-server-core-jvm:3.6.1")
+    implementation("io.ktor:ktor-server-netty-jvm:3.6.1")
+    implementation("io.ktor:ktor-server-status-pages-jvm:3.6.1")
+    implementation("io.ktor:ktor-server-default-headers-jvm:3.6.1")
     implementation("ch.qos.logback:logback-classic:$logback_version")
         implementation("5024297:pdftk-all:3.3.3")
     // Use the Kotlin JUnit 5 integration.

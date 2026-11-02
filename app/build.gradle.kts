@@ -9,8 +9,8 @@ val logback_version: String by project
 
 plugins {
     // Apply the org.jetbrains.kotlin.jvm Plugin to add support for Kotlin.
-    id("org.jetbrains.kotlin.jvm") version "1.9.10"
-    id("io.ktor.plugin") version "2.3.5"
+    id("org.jetbrains.kotlin.jvm") version "2.4.21"
+    id("io.ktor.plugin") version "3.6.1"
 
     // Apply the application plugin to add support for building a CLI application in Java.
     application
@@ -29,22 +29,22 @@ repositories {
 }
 
 dependencies {
-    implementation("io.ktor:ktor-server-core-jvm:2.3.5")
-    implementation("io.ktor:ktor-server-netty-jvm:2.3.5")
-    implementation("io.ktor:ktor-server-status-pages-jvm:2.3.5")
-    implementation("io.ktor:ktor-server-default-headers-jvm:2.3.5")
+    implementation("io.ktor:ktor-server-core-jvm:3.6.1")
+    implementation("io.ktor:ktor-server-netty-jvm:3.6.1")
+    implementation("io.ktor:ktor-server-status-pages-jvm:3.6.1")
+    implementation("io.ktor:ktor-server-default-headers-jvm:3.6.1")
     implementation("ch.qos.logback:logback-classic:$logback_version")
         implementation("5024297:pdftk-all:3.3.3")
     // Use the Kotlin JUnit 5 integration.
     testImplementation("org.jetbrains.kotlin:kotlin-test-junit5")
 
     // Use the JUnit 5 integration.
-    testImplementation("org.junit.jupiter:junit-jupiter-engine:5.9.3")
+    testImplementation("org.junit.jupiter:junit-jupiter-engine:6.1.3")
 
     testRuntimeOnly("org.junit.platform:junit-platform-launcher")
 
     // This dependency is used by the application.
-    implementation("com.google.guava:guava:32.1.1-jre")
+    implementation("com.google.guava:guava:33.7.2-jre")
 }
 
 // Apply a specific Java toolchain to ease working on different environments.
